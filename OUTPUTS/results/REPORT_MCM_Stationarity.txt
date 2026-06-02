@@ -1,0 +1,198 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║   TECHNICAL REPORT: MCM DESIGN HYETOGRAPHS                                ║
+║   Non-Stationarity Analysis and ENSO Influence — MCM Model              ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+REPORT GENERATED: 2026-06-01 17:31:31 
+
+═══════════════════════════════════════════════════════════════════════════
+1. SERIES INFORMATION
+═══════════════════════════════════════════════════════════════════════════
+  Record period         : 1954 – 2024
+  Number of years       : 71
+  Mean annual Pmax 24h  : 61.16 mm
+  Absolute max Pmax 24h : 138.00 mm (year 1978)
+  Absolute min Pmax 24h : 15.80 mm (year 2015)
+  Coeff. of variation   : 0.396
+  Skewness              : 0.686
+  Kurtosis              : 4.244
+
+═══════════════════════════════════════════════════════════════════════════
+2. STATIONARITY ANALYSIS — DETAILED RESULTS
+═══════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────┬──────────────┬──────────┬────────────────────────────────────────────────┐
+│ Test                        │ Statistic    │ p-value  │ Conclusion                                     │
+├─────────────────────────────┼──────────────┼──────────┼────────────────────────────────────────────────┤
+│ Mann-Kendall                │ 0.0004       │ 1.0000   │ No significant trend (Stationary)              │
+│ Pettitt                     │ 600.0000     │ 0.0052   │ ABRUPT CHANGE detected in year 2013 (No statio │
+│ Sequential Sneyers          │ -0.1241      │    N/A   │ Possible change point. Crossings at: 1967, 202 │
+│ Moving-Window MK            │ 0.0474       │    N/A   │ Variable trend detected (16 significant window │
+│ White (heteroscedasticity)  │ 1.3380       │ 0.5122   │ No heteroscedasticity — homogeneous variance │
+│ ADF (unit root)             │ -1.7663      │ 0.6704   │ Possible unit root — non-stationary behaviour │
+└─────────────────────────────┴──────────────┴──────────┴────────────────────────────────────────────────┘
+
+TEST INTERPRETATION:
+
+  • Mann-Kendall:
+    Non-parametric test for monotonic trend based on the Kendall tau
+    Kendall tau. H0: no trend. H0 is rejected if p < 0.05.
+    Result: τ = 0.0004, p = 1.0000. No significant trend (Stationary)
+
+  • Pettitt:
+    Non-parametric test for abrupt change (change point) in the mean.
+    Detects whether a statistically significant break year exists.
+    Result: U = 600, p = 0.0052. ABRUPT CHANGE detected in year 2013 (No stationary)
+
+  • Sequential Sneyers:
+    Analyses progressive u(t) and retrogressive u'(t) statistics.
+    Crossings within the ±1.96 band suggest a regime change.
+    Result: Possible change point. Crossings at: 1967, 2022
+
+  • Moving-Window MK:
+    Applies Mann-Kendall in sliding windows to detect local trends.
+    Window used: 21 years.
+    Result: Variable trend detected (16 significant windows out of 51)
+
+  • White (heteroscedasticity):
+    Tests whether residual variance is constant. Heteroscedastic
+    variance signals non-stationarity in dispersion.
+    Result: BP = 1.3380, p = 0.5122. No heteroscedasticity — homogeneous variance
+
+  • Augmented Dickey-Fuller (ADF):
+    Unit root test. H0: unit root exists (non-stationary).
+    With p<0.05 H0 is rejected → stationary series.
+    Result: DF = -1.7663 (lags=4), p = 0.6704. Possible unit root — non-stationary behaviour
+
+FINAL DECISION:
+  Non-stationarity votes: 4/6
+  ★ NON-STATIONARY SERIES — Non-stationary MCM model adopted
+    with ONI covariate (Oceanic Niño Index).
+
+  RECOMMENDATIONS:
+  1. Prioritise non-stationary models for frequency analysis,
+     especially when climate change projections are available.
+  2. Update the model periodically as new historical data and
+     ONI projections become available.
+  3. Consider additional covariates such as sea surface temperature
+     (SST) or the AMO index to complement the analysis.
+  4. Update ONI with projections from global climate models (CMIP6)
+     to generate hyetographs under climate change scenarios.
+
+═══════════════════════════════════════════════════════════════════════════
+3. DESIGN PRECIPITATION
+═══════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────┬──────────────────┐
+│ T return (yr)       │ Pmax 24h (mm)    │
+├─────────────────────┼──────────────────┤
+│ 2                   │ 58.93            │
+│ 2.33                │ 63.25            │
+│ 5                   │ 80.82            │
+│ 10                  │ 93.78            │
+│ 25                  │ 108.57           │
+│ 50                  │ 118.52           │
+│ 100                 │ 127.60           │
+│ 200                 │ 135.93           │
+│ 500                 │ 145.92           │
+└─────────────────────┴──────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════
+4. MCM MODEL PARAMETERS
+═══════════════════════════════════════════════════════════════════════════
+
+  Foundation: Microcanonical Multiplicative Cascade model
+  Multipliers W follow a Beta distribution with point mass
+  mass at extremes 0 and 1 (dry/wet intervals).
+
+  α (shape1) = 1.6188
+  β (shape2) = 6.0848
+  P0 (dry fraction) = 0.0047
+  Storm duration      = 6 hours
+  Time step           = 15 minutes
+  Number of steps     = 24
+  Monte Carlo simulations = 500
+
+═══════════════════════════════════════════════════════════════════════════
+5. HYETOGRAPH SUMMARY (P50 — MCM ENSEMBLE MEDIAN)
+═══════════════════════════════════════════════════════════════════════════
+
+  Time (h)     T=2yr  T=2.33yr  T=5yr  T=10yr  T=25yr  T=50yr  T=100yr  T=200yr  T=500yr
+  ----------------------------------------------------------------------------------------------
+     0.250 h     0.32     0.34     0.44     0.50     0.53     0.62     0.67     0.71     0.74
+     0.500 h     0.46     0.49     0.64     0.73     0.79     0.92     0.95     1.04     1.11
+     0.750 h     0.61     0.68     0.85     0.97     1.09     1.24     1.32     1.31     1.39
+     1.000 h     0.90     0.92     1.22     1.40     1.57     1.83     1.88     1.96     2.07
+     1.250 h     1.22     1.31     1.71     1.83     2.15     2.55     2.61     2.76     2.89
+     1.500 h     2.23     2.46     2.96     3.56     3.88     4.67     4.99     5.16     5.61
+     1.750 h     4.01     4.13     5.39     6.09     6.99     8.21     8.62     8.73     9.52
+     2.000 h     7.29     7.81     9.56    11.69    12.72    15.00    15.86    17.31    18.36
+     2.250 h    17.05    19.13    24.62    28.53    35.26    34.57    37.93    42.13    44.86
+     2.500 h    11.29    11.80    15.08    17.48    20.28    21.81    23.76    25.10    27.75
+     2.750 h     5.32     5.46     7.17     8.27     9.10    10.71    11.36    11.79    12.40
+     3.000 h     3.08     3.20     4.14     4.67     5.32     6.18     6.68     6.59     7.02
+     3.250 h     1.88     2.03     2.56     2.93     3.25     3.79     4.08     4.09     4.50
+     3.500 h     1.37     1.51     1.86     2.20     2.44     2.75     2.98     3.07     3.28
+     3.750 h     0.78     0.79     1.05     1.14     1.27     1.41     1.54     1.66     1.70
+     4.000 h     0.37     0.40     0.51     0.63     0.64     0.78     0.83     0.88     0.90
+     4.250 h     0.24     0.24     0.34     0.36     0.40     0.47     0.49     0.51     0.59
+     4.500 h     0.16     0.18     0.25     0.25     0.27     0.33     0.35     0.34     0.39
+     4.750 h     0.10     0.11     0.14     0.17     0.18     0.20     0.22     0.24     0.26
+     5.000 h     0.10     0.11     0.15     0.18     0.19     0.21     0.22     0.24     0.27
+     5.250 h     0.07     0.07     0.09     0.10     0.11     0.13     0.12     0.14     0.16
+     5.500 h     0.04     0.04     0.05     0.06     0.06     0.07     0.08     0.09     0.09
+     5.750 h     0.02     0.02     0.03     0.03     0.04     0.04     0.04     0.04     0.05
+     6.000 h     0.01     0.01     0.01     0.01     0.01     0.02     0.02     0.02     0.02
+
+═══════════════════════════════════════════════════════════════════════════
+6. METHODOLOGICAL CONSIDERATIONS AND LIMITATIONS
+═══════════════════════════════════════════════════════════════════════════
+
+  1. IDF CURVES: Bell (1969) anchored on station GEV quantiles.
+     P(t,T) = (0.54·t^0.25-0.50)·P(60min,T),  with P(1h)/P(24h)=0.40.
+     If local rain gauge data are available, adjust ratio_60_1440 in CONFIG.
+
+  2. MCM: Beta parameters were calibrated from monthly Pmax series.
+     With hourly or sub-hourly data the estimation would be more
+     precise. The model assumes statistical scale self-similarity.
+
+  3. GEV DISTRIBUTION: GEV (Generalised Extreme Value) was adopted
+     for frequency analysis, internationally recognised for
+     hydrological maxima. Verify goodness of fit with KS/AD tests.
+
+  4. NON-STATIONARITY: The non-stationary model uses ONI as a linear
+     covariate in the GEV location parameter μ. More complex
+     relationships (non-linear, interactions) may improve the fit.
+
+  5. RETURN PERIODS: In a non-stationary context, the traditional
+     return period loses its strict meaning. It is recommended to
+     interpret it as 'expected waiting time' or use cumulative
+     exceedance probabilities (Cooley 2013; Salas & Obeysekera 2014).
+
+  6. UNCERTAINTY: The P10-P90 ensemble band represents the
+     variability of the disaggregation process. For risk management
+     it is recommended to use the P90 percentile as the conservative design.
+
+  7. STATISTICAL POWER OF STATIONARITY TESTS
+═══════════════════════════════════════════════════════════════════════════
+
+  n = 71 years. α = 0.05. Approximate power for moderate trend (τ≈0.3):
+
+  ┌───────────────────────────┬──────────────────────────┬──────────────┐
+  │ Test                      │ Main strength             │ Power (n≈40) │
+  ├───────────────────────────┼──────────────────────────┼──────────────┤
+  │ Mann-Kendall              │ Monotonic trend           │ ~0.65–0.80   │
+  │ Pettitt                   │ Abrupt change (point)     │ ~0.60–0.75   │
+  │ Sequential Sneyers        │ Gradual change (qualit.)  │ Qualitative  │
+  │ Moving-Window MK          │ Variable local trend      │ ~0.50–0.70   │
+  │ White (heteroscedasticity)│ Variance change           │ ~0.55–0.70   │
+  │ ADF (unit root)           │ Strong non-stationarity   │ ~0.40–0.60   │
+  └───────────────────────────┴──────────────────────────┴──────────────┘
+
+  Ref: Yue & Wang (2004), Hydrological Sciences Journal.
+  Note: the majority vote system (3/6) is deliberately conservative;
+  a consistent signal across tests of different nature is required.
+
+═══════════════════════════════════════════════════════════════════════════
+END OF REPORT
+═══════════════════════════════════════════════════════════════════════════
